@@ -6,7 +6,7 @@ export interface Card {
   cardHolderName: string;
   dedication: string;
   photoSrc: string;
-  cardTheme: string;
+  theme: string;
 }
 
 export interface CardCreateRequest {

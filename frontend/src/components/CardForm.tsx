@@ -55,6 +55,7 @@ const Form = () => {
 
   const [isNewCard, setIsNewCard] = useState(false);
   const [error, setError] = useState<Record<string, string>>({});
+  const [themeIndex, setThemeIndex] = useState(7); // Default to 'candy' theme
 
   useEffect(() => {
     const getCard = async () => {
@@ -89,8 +90,7 @@ const Form = () => {
         }
 
         setPhotoSrc(imageUrl);
-
-        setCardTheme(card.data.cardTheme || 'candy');
+        setCardTheme(card.data.theme || 'candy');
       }
     };
 
@@ -100,6 +100,13 @@ const Form = () => {
   useEffect(() => {
     if (isNewCard) setCardTheme('candy');
   }, [setCardTheme, isNewCard]);
+
+  useEffect(() => {
+    if (cardTheme) {
+      const themeIndex = themeNamesWithIndex.findIndex((theme) => theme.name === cardTheme);
+      setThemeIndex(themeIndex !== -1 ? themeIndex : 7); // Default to 'candy' if not found
+    }
+  }, [cardTheme, setThemeIndex]);
 
   const { mutate: createCardMutate, isPending: creatingCard } = useCreateCardRequest();
 
@@ -169,7 +176,6 @@ const Form = () => {
       imageBlob = await getCroppedImageBlob(imageURL, { ...croppedAreaPixels });
     } else {
       imageBlob = undefined;
-      return;
     }
 
     updateCardMutate(
@@ -265,7 +271,7 @@ const Form = () => {
           <label htmlFor='theme-select'>Tema</label>
           <Select
             id='theme-select'
-            defaultValue={7}
+            value={themeIndex}
             menuMaxHeight={160}
             options={themeNames.map((theme, index) => ({
               label: theme,

@@ -16,7 +16,9 @@ public record UserUpdateCardRequest(
     String dedication,
 
     @Nullable
-    @NotNull(message = "Tienes que subir una imagen")
-    MultipartFile image
+    MultipartFile image,
+
+    @Nullable
+    String theme
 ) {
 }

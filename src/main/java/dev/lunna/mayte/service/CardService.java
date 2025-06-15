@@ -8,13 +8,10 @@ import dev.lunna.mayte.database.repository.UserRepository;
 import dev.lunna.mayte.dto.UserCreateCardRequest;
 import dev.lunna.mayte.dto.UserUpdateCardRequest;
 import dev.lunna.mayte.exception.SimpleJsonException;
-import dev.lunna.mayte.security.AuthenticatedUser;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,6 +115,10 @@ public class CardService {
 
     if (userUpdateCardRequest.dedication() != null) {
       card.setDedication(userUpdateCardRequest.dedication());
+    }
+
+    if (userUpdateCardRequest.theme() != null) {
+      card.setTheme(userUpdateCardRequest.theme());
     }
 
     cardRepository.save(card);
