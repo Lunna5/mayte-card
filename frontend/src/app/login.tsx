@@ -1,7 +1,7 @@
 import { WindowWrapper } from '@/components/95/WindowWrapper';
 import { ErrorSpan } from '@/components/ErrorSpan';
 import { useAuth } from '@/hooks/auth/useAuth';
-import { useState, type SetStateAction } from 'react';
+import { useState, type SetStateAction, type FormEvent } from 'react';
 import { Button, TextInput, Window, WindowContent, WindowHeader } from 'react95';
 import { useRequestOtp } from '@/hooks/auth/useRequestOtp';
 import { errorToRecord } from '@/utils/error';
@@ -25,7 +25,7 @@ export const LoginForm = () => {
   const { mutate: requestOtpMutate, isPending: loading } = useRequestOtp();
   const { mutate: requestLoginMutate, isPending: loginLoading } = useLogin();
 
-  const handleEmailForm = (e: React.FormEvent) => {
+  const handleEmailForm = (e: FormEvent) => {
     e.preventDefault();
     setError({});
 
@@ -40,7 +40,7 @@ export const LoginForm = () => {
     });
   };
 
-  const handleOtpForm = async (e: React.FormEvent) => {
+  const handleOtpForm = async (e: FormEvent) => {
     e.preventDefault();
     setError({});
 
@@ -53,7 +53,7 @@ export const LoginForm = () => {
         onError: (error: unknown) => {
           setError(errorToRecord(error));
         },
-      }
+      },
     );
   };
 
@@ -74,7 +74,7 @@ export const LoginForm = () => {
             <TextInput
               value={email}
               placeholder='tucorreo123@g.educaand.es'
-              onChange={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)}
+              onChange={(e: { target: { value: SetStateAction<string> } }) => setEmail(e.target.value)}
               fullWidth
             />
 

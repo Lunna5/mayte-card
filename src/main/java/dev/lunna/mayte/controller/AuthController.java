@@ -6,6 +6,7 @@ import dev.lunna.mayte.dto.UserOtpRequestResponseDTO;
 import dev.lunna.mayte.dto.UserOtpValidationDTO;
 import dev.lunna.mayte.dto.UserTokenResponseDTO;
 import dev.lunna.mayte.exception.TokenExpiredException;
+import dev.lunna.mayte.security.AuthenticatedUser;
 import dev.lunna.mayte.service.EmailOTPService;
 import dev.lunna.mayte.service.JwtService;
 import dev.lunna.mayte.service.UserService;
@@ -57,11 +58,11 @@ public class AuthController {
   }
 
   @GetMapping("/me")
-  public User getCurrentUser(@AuthenticationPrincipal final User user) {
+  public User getCurrentUser(@AuthenticationPrincipal final AuthenticatedUser user) {
     if (user == null) {
       throw new IllegalStateException("User not authenticated");
     }
 
-    return user;
+    return user.getUser();
   }
 }

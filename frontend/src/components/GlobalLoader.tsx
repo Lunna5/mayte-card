@@ -8,17 +8,17 @@ const Overlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.3);  // Fondo oscuro semi-transparente
+  background: rgba(0, 0, 0, 0.3); // Fondo oscuro semi-transparente
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;  // Por encima de casi todo
+  z-index: 9999; // Por encima de casi todo
 `;
 
 const LoaderBox = styled(Frame)`
-    width: 300px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 interface GlobalLoaderProps {
@@ -34,7 +34,7 @@ export const GlobalLoader = ({ loading, onFinish }: GlobalLoaderProps) => {
 
     if (loading) {
       timer = window.setInterval(() => {
-        setPercent(prev => {
+        setPercent((prev) => {
           if (prev >= 90) return prev;
           return Math.min(prev + Math.random() * 5, 90);
         });
@@ -60,7 +60,7 @@ export const GlobalLoader = ({ loading, onFinish }: GlobalLoaderProps) => {
   return (
     <Overlay>
       <LoaderBox>
-        <ProgressBar variant="tile" value={Math.floor(percent)} />
+        <ProgressBar variant='tile' value={Math.floor(percent)} />
       </LoaderBox>
     </Overlay>
   );

@@ -48,5 +48,5 @@ createRoot(document.getElementById('root')!).render(
         </AuthProvider>
       </QueryClientProvider>
     </LoadingProvider>
-  </StrictMode>
+  </StrictMode>,
 );

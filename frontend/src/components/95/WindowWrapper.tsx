@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const WindowWrapper = styled.div`
   .window-title {
@@ -44,4 +44,3 @@ export const WindowWrapper = styled.div`
     }
   }
 `;
-

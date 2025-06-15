@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
 const oopsify = async <T>(promise: Promise<T>): Promise<[Error | null, T | null]> => {
   try {
@@ -23,6 +23,6 @@ export const errorToRecord = (error: unknown): Record<string, string> => {
   }
 
   return { message: 'Ha ocurrido un error desconocido' };
-}
+};
 
 export default oopsify;

@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router';
 export const LoginLayout = () => {
   const { user } = useAuth();
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to='/' replace />;
   }
 
   return <Outlet />;
@@ -14,11 +14,13 @@ export const LoginLayout = () => {
 export const AuthenticatedLayout = () => {
   const { user } = useAuth();
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to='/login' replace />;
   }
 
-  return <>
-    <AccountAppBar />
-    <Outlet />
-  </>
+  return (
+    <>
+      <AccountAppBar />
+      <Outlet />
+    </>
+  );
 };

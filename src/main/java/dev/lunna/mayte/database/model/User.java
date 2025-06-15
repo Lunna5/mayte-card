@@ -1,5 +1,6 @@
 package dev.lunna.mayte.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.lunna.mayte.authority.ApplicationAuthority;
 import dev.lunna.mayte.authority.ApplicationRole;
 import jakarta.persistence.*;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
@@ -48,6 +50,10 @@ public class User implements UserDetails {
 
   @Column(name = "updated_at")
   private Long updatedAt = System.currentTimeMillis();
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Card> cards;
 
   public User(@NotNull final String email, @NotNull final Set<String> authorities) {
     this.email = email;
@@ -173,5 +179,20 @@ public class User implements UserDetails {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+  }
+
+
+  public List<Card> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<Card> cards) {
+    this.cards = cards;
+  }
+
+  public void addCard(@NotNull final Card card) {
+    requireNonNull(card, "Card cannot be null");
+    cards.add(card);
+    card.setUser(this);
   }
 }

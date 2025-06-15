@@ -10,8 +10,8 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         Component: LoginPage,
-      }
-    ]
+      },
+    ],
   },
   {
     element: <AuthenticatedLayout />,
@@ -20,6 +20,6 @@ export const router = createBrowserRouter([
         path: '/',
         Component: App,
       },
-    ]
-  }
+    ],
+  },
 ]);

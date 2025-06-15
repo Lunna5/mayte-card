@@ -1,6 +1,12 @@
 import { Button, Frame, GroupBox, Window, WindowContent, WindowHeader } from 'react95';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { WindowWrapper } from './95/WindowWrapper';
+import DefaultImage from '@/assets/images/default-image.jpg';
+import { useCard } from '@/hooks/useCard';
+import { WindowDraggable } from './Dragable';
+import { useAuth } from '@/hooks/auth/useAuth';
+import type { Props } from 'react-rnd';
+import { getTheme } from '@/utils/themes';
 
 const Wrapper = styled(WindowWrapper)`
   .window {
@@ -10,28 +16,62 @@ const Wrapper = styled(WindowWrapper)`
   }
 `;
 
-const Card = () => {
+export interface CardProps {
+  photoSrc?: string;
+  id: number;
+  name: string;
+  dedication: string;
+}
+
+export const CardFromContext = ({ ...props }: Props) => {
+  const card = useCard();
+
+  if (!card) {
+    console.error('Card context is not available');
+    return null;
+  }
+
+  return (
+    <ThemeProvider theme={getTheme(card.cardTheme || 'candy')}>
+      <Card
+        {...props}
+        id={card.cardNumber}
+        name={card.cardHolderName}
+        dedication={card.dedication}
+        photoSrc={card.photoSrc}
+      />
+    </ThemeProvider>
+  );
+};
+
+const Card = ({ ...props }: CardProps & Props) => {
+  return (
+    <WindowDraggable {...props}>
+      <CardContent {...props} />
+    </WindowDraggable>
+  );
+};
+
+const CardContent = ({ photoSrc, name, id, dedication }: CardProps) => {
+  const { user } = useAuth();
+
   return (
     <Wrapper>
       <Window className='window'>
-        <WindowHeader className='window-title'>
-          <span>#1 Julieta Emilia</span>
+        <WindowHeader className='window-title cursor-move'>
+          <span>
+            #{id} {name || user?.username}
+          </span>
           <Button>
             <span className='close-icon' />
           </Button>
         </WindowHeader>
         <WindowContent>
-          <CardPhotoFrame
-            src={
-              'https://files.lamega.com.rcnra-dev.com/assets/public/styles/main_image_amp_webp/public/media/image/image/2024-06/cazzu.png?VersionId=Ral3VutbB23Amv70W9PkOGmi1OSg8gny&h=a9c2e262&itok=J-bwGDMa'
-            }
-          />
+          <CardPhotoFrame src={photoSrc || DefaultImage} />
 
           <div className={'mt-4 max-h-[200px] h-[200px] flex'}>
-            <GroupBox label='Dedicatoria 😍'>
-              <span className={'wrap-break-word overflow-hidden'}>
-                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-              </span>
+            <GroupBox label='Dedicatoria 😍' className='w-full'>
+              <span className={'wrap-break-word overflow-hidden'}>{dedication || 'Introduce tu dedicatoria...'}</span>
             </GroupBox>
           </div>
         </WindowContent>

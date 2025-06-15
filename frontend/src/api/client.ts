@@ -11,9 +11,13 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  if (!config.headers['Content-Type']) {
+    config.headers['Content-Type'] = 'application/json';
+  }
 
-  config.headers['Content-Type'] = 'application/json';
-  config.headers['Accept'] = 'application/json';
+  if (!config.headers['Accept']) {
+    config.headers['Accept'] = 'application/json';
+  }
 
   return config;
 });
@@ -26,7 +30,7 @@ api.interceptors.response.use(
   (error) => {
     stopLoading();
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
